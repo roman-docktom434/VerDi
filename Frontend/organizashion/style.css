@@ -1,0 +1,210 @@
+:root {
+    --bg-color: #ffffff;
+    --header-bg: #d0deea;
+    --card-bg: #f5f0eb;
+    --text-main: #334d5e;
+    --text-light: #8eadc0;
+    --border-color: #c4d3dd;
+    --accent-color: #648296;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+
+/* --- Шапка и Аватар --- */
+.header {
+    background-color: var(--header-bg);
+    padding: 15px 0;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow);
+}
+
+.header__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-info__avatar {
+    width: 38px;
+    height: 38px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 2px solid var(--accent-color);
+    overflow: hidden; /* Чтобы фото было круглым */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-info__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- Кнопка отсканировать --- */
+.button-scanner{
+    color: var(--accent-color);
+    display: flex;
+    background-color: #f5f0eb;
+    margin: 20px;
+    padding: 15px;
+    max-width: 1200px;
+    gap: 15px;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+    border:none ;
+    width: calc(100% - 40px); /* Добавьте - растягиваем кнопку */
+    cursor: pointer; /* Добавьте для указателя */
+}
+
+.button-icon{
+    pointer-events: none;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+/* --- Поиск и Лупа --- */
+@media(min-width: 768px){
+    .search-section {
+    margin-left: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    gap: 100px;
+    margin-bottom: 30px;
+    max-width: 1200px;
+    }
+}
+.search-section {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+    max-width: 1200px;
+}
+
+.section-title{
+    margin-top: 20px;
+}
+
+.search-container {
+    position: relative; 
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+}
+
+.search-input-num{
+    width: 100%;
+    padding: 14px 15px 14px 45px; /* Резервируем место под иконку слева */
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-input-code{
+    width: 100%;
+    padding: 14px 15px 14px 45px; /* Резервируем место под иконку слева */
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 4px rgba(100, 130, 150, 0.1);
+}
+
+/* --- Таблица --- */
+.table-wrapper {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    background-color: #f8fafb;
+    text-align: left;
+    padding: 16px;
+    color: var(--text-light);
+    font-size: 13px;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.data-table td {
+    padding: 16px;
+    border-bottom: 1px solid #f0f3f5;
+    transition: background-color 0.2s ease;
+}
+
+.data-table tbody tr:hover td {
+    background-color: #f1f6f9; /* Подсветка строки */
+    color: var(--accent-color);
+}
+
+/* --- Кнопки --- */
+.btn-primary {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--header-bg);
+    transform: translateY(-2px);
+}
