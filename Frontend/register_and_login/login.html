@@ -2,9 +2,9 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="css/register.css" />
-    <script src="js/register.js"></script>
-    <title>Регистрация</title>
+    <link rel="stylesheet" href="css/login.css" />
+    <script src="js/login.js"></script>
+    <title>Вход в аккаунт</title>
   </head>
 
   <body>
@@ -19,7 +19,7 @@
       <!-- Правая часть -->
       <div id="right">
         <h2>Добро пожаловать!</h2>
-        <p>Зарегистрируйте аккаунт</p>
+        <p>Войдите в аккаунт</p>
 
         <div class="tabs">
           <button class="tab active" onclick="switchTab(0)">ВУЗ</button>
@@ -29,30 +29,26 @@
 
         <!-- Вкладка "ВУЗ" -->
         <div class="form active">
-          <input type="text" placeholder="Введите название организации" />
-          <input type="text" placeholder="Введите код ВУЗа" />
+          <input type="text" placeholder="Введите название или код ВУЗа" />
           <input type="password" placeholder="Введите пароль" />
-          <input type="password" placeholder="Подтвердите пароль" />
         </div>
 
         <!-- Вкладка "Студент" -->
         <div class="form">
           <input type="text" placeholder="Введите ФИО" />
-          <input type="text" placeholder="Введите номер диплома" />
-          <input type="text" placeholder="Введите код ВУЗа" />
+          <input type="number" placeholder="Введите номер диплома" />
+          <input type="number" placeholder="Введите код ВУЗа" />
         </div>
 
         <!-- Вкладка "Работодатель" -->
         <div class="form">
-          <input type="text" placeholder="Введите название организации" />
-          <input type="email" placeholder="Введите e-mail" />
+          <input type="text" placeholder="Введите e-mail или название организации" />
           <input type="password" placeholder="Введите пароль" />
-          <input type="password" placeholder="Подтвердите пароль" />
         </div>
 
-        <button class="btn">Зарегистрироваться</button>
+        <button class="btn">Войти в аккаунт</button>
 
-        <div class="login">Уже есть аккаунт? <a href="login.html">Войти</a></div>
+        <div class="login">Нет аккаунта? <a href="register.html">Зарегистрироваться</a></div>
       </div>
     </div>
   </body>
