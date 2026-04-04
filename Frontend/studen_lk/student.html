@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Поиск диплома</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/student.js"></script>
+  </head>
+
+  <body>
+    <div class="header">
+      <div class="logo">ВерДи</div>
+      <p>ФИ студента</p>
+      <div>
+        <img src="img/lk.svg" />
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="search">
+        <h2>Поиск диплома</h2>
+
+        <div class="search-box">
+          <img src="img/lupa.svg" />
+          <input placeholder="Введите номер диплома" />
+        </div>
+      </div>
+
+      <!-- РЕЗУЛЬТАТ -->
+      <div class="card">
+        <div class="info">
+          <h4>ФИО студента:</h4>
+          <p>ФИО</p>
+          <h4>ВУЗ:</h4>
+          <p>ВУЗ</p>
+          <h4>Статус верификации:</h4>
+          <p>СТАТУС</p>
+        </div>
+
+        <div class="qr">QR</div>
+      </div>
+
+      <!-- ССЫЛКА -->
+      <div class="link-block">
+        <div id="UniqueText">
+        <h3>Создай свою уникальную ссылку</h3>
+</div>
+        <div id="time-select">
+          <p>Выберите время для действия ссылки:</p>
+
+          <button class="active" onclick="setTime(this)">1ч</button>
+          <button onclick="setTime(this)">24ч</button>
+          <button onclick="setTime(this)">Бессрочно</button>
+        </div>
+
+        <button class="btn">Сгенерировать ссылку / Аннулировать</button>
+        <div id="link-gen">
+          <input value="https://example.com/link" />
+          <img src="img/copy.svg" />
+        </div>
+        <div class="small">
+          <img src="img/clock.svg" />
+          <p>Ссылка будет активна до 23:00</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
