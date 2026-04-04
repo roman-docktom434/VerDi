@@ -13,7 +13,7 @@
     <div class="container">
       <!-- Левая часть -->
       <div id="left">
-        <img src="img/register_image.svg" alt="" />
+        <img src="img/r&l_image.svg" alt="" />
       </div>
 
       <!-- Правая часть -->
@@ -27,10 +27,13 @@
           <button class="tab" onclick="switchTab(2)">Работодатель</button>
         </div>
 
+        <form action="../Backend/register.php" method="POST">
+          <input type="hidden" name="type" id="type" value="hs">
+
         <!-- Вкладка "ВУЗ" -->
         <div class="form active">
           <input type="text" placeholder="Введите название организации" />
-          <input type="email" placeholder="Введите e-mail" />
+          <input type="text" placeholder="Введите код ВУЗа" />
           <input type="password" placeholder="Введите пароль" />
           <input type="password" placeholder="Подтвердите пароль" />
         </div>
@@ -38,21 +41,21 @@
         <!-- Вкладка "Студент" -->
         <div class="form">
           <input type="text" placeholder="Введите ФИО" />
-          <input type="number" placeholder="Введите номер диплома" />
-          <input type="number" placeholder="Введите код ВУЗа" />
+          <input type="text" placeholder="Введите номер диплома" />
+          <input type="text" placeholder="Введите код ВУЗа" />
         </div>
 
         <!-- Вкладка "Работодатель" -->
         <div class="form">
-          <input type="text" placeholder="Введите название организации" />
-          <input type="email" placeholder="Введите e-mail" />
-          <input type="password" placeholder="Введите пароль" />
+          <input type="text" name="name" placeholder="Введите название организации" />
+          <input type="email" name="email" placeholder="Введите e-mail" />
+          <input type="password" name="password" placeholder="Введите пароль" />
           <input type="password" placeholder="Подтвердите пароль" />
         </div>
 
         <button class="btn">Зарегистрироваться</button>
-
-        <div class="login">Уже есть аккаунт? <a href="#">Войти</a></div>
+</form>
+        <div class="login">Уже есть аккаунт? <a href="login.html">Войти</a></div>
       </div>
     </div>
   </body>

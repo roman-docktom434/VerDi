@@ -22,26 +22,33 @@ body {
 }
 
 .container {
-  width: 50vh;
-  height: 31.5%;
+  width: 900px;
+  height: 500px;
   background: #f3f3f3;
   border-radius: 10px;
+  display: flex;
   overflow: hidden;
   box-shadow: #f3f3f3b0 5px 5px 15px;
-  padding: 3vh;
 }
 
-#top {
-  display: flex;
-  margin-bottom: 1rem;
-}
-#left_top {
-  vertical-align: middle;
-}
-#right_top {
-  display: flex;
+/* Левая часть */
+#left {
   width: 50%;
-  justify-content: flex-end;
+  background: #e6edf3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#left img {
+  width: 80%;
+}
+
+/* Правая часть */
+#right {
+  width: 50%;
+  padding: 40px;
+  background-color: white;
 }
 
 h2 {
@@ -53,6 +60,35 @@ p {
   color: #666;
 }
 
+/* Вкладки */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #f4efeb;
+}
+
+.tab.active {
+  background: #577c8e;
+  color: white;
+}
+
+/* Формы */
+.form {
+  display: none;
+}
+
+.form.active {
+  display: block;
+}
+
 input {
   width: 100%;
   padding: 10px;
@@ -61,7 +97,7 @@ input {
   border-radius: 5px;
 }
 
-.login {
+.btn {
   width: 100%;
   padding: 12px;
   background: #577c8e;
@@ -71,3 +107,17 @@ input {
   cursor: pointer;
   margin-top: 10px;
 }
+
+.login {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+}
+
+.login a {
+  color: #577c8e;
+  text-decoration: none;
+}
+
+/* Ну и жесть */
