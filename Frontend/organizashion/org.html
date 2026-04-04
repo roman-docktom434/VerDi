@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ВерДи — Кабинет Организации</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header__content">
+            <h1 class="logo">ВерДи</h1>
+            <div class="user-info">
+                <span class="user-info__name">Название Организации</span>
+                <div class="user-info__avatar">
+                    <img src="images/profile.png" alt="Профиль">
+                </div>
+            </div>
+        </div>
+    </header>
+
+        <section class="search-section">
+            <div>
+            <h2 class="section-title">Поиск по номеру диплома</h2>
+            
+            <div class="search-container">
+                <img src="images/Search.png" alt="Поиск" class="search-icon">
+                <input type="text" class="search-input-num" placeholder="Введите номер диплома">
+            </div>
+            </div>
+            <div>
+            <h2 class="section-title">Поиск по коду ВУЗа</h2>
+            <div class="search-container">
+                <img src="images/Search.png" alt="Поиск" class="search-icon">
+                <input type="text" class="search-input-code" placeholder="Введите номер диплома">
+            </div>
+        </section>
+        <section class="table-section">
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ФИО студента</th>
+                            <th>Специальность</th>
+                            <th>Дата выдачи</th>
+                            <th>Статус проверки</th>
+                        </tr>
+                    </thead>
+                    <tbody id="diploma-table-body">
+                        <tr>
+                            <td>Иванов Иван Иванович</td>
+                            <td>Информационные системы</td>
+                            <td>20.05.2025</td>
+                            <td>В очереди</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
