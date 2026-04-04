@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="css/register.css" />
+    <script src="js/register.js"></script>
+    <title>Регистрация</title>
+  </head>
+
+  <body>
+    <h1 id="ComName">ВерДи</h1>
+
+    <div class="container">
+      <!-- Левая часть -->
+      <div id="left">
+        <img src="img/register_image.svg" alt="" />
+      </div>
+
+      <!-- Правая часть -->
+      <div id="right">
+        <h2>Добро пожаловать!</h2>
+        <p>Зарегистрируйте аккаунт</p>
+
+        <div class="tabs">
+          <button class="tab active" onclick="switchTab(0)">ВУЗ</button>
+          <button class="tab" onclick="switchTab(1)">Студент</button>
+          <button class="tab" onclick="switchTab(2)">Работодатель</button>
+        </div>
+
+        <!-- Вкладка "ВУЗ" -->
+        <div class="form active">
+          <input type="text" placeholder="Введите название организации" />
+          <input type="email" placeholder="Введите e-mail" />
+          <input type="password" placeholder="Введите пароль" />
+          <input type="password" placeholder="Подтвердите пароль" />
+        </div>
+
+        <!-- Вкладка "Студент" -->
+        <div class="form">
+          <input type="text" placeholder="Введите ФИО" />
+          <input type="number" placeholder="Введите номер диплома" />
+          <input type="number" placeholder="Введите код ВУЗа" />
+        </div>
+
+        <!-- Вкладка "Работодатель" -->
+        <div class="form">
+          <input type="text" placeholder="Введите название организации" />
+          <input type="email" placeholder="Введите e-mail" />
+          <input type="password" placeholder="Введите пароль" />
+          <input type="password" placeholder="Подтвердите пароль" />
+        </div>
+
+        <button class="btn">Зарегистрироваться</button>
+
+        <div class="login">Уже есть аккаунт? <a href="#">Войти</a></div>
+      </div>
+    </div>
+  </body>
+</html>
