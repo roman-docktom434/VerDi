@@ -1,62 +1,99 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- ЭЛЕМЕНТЫ СТРАНИЦЫ ВУЗА ---
+    //ЭЛЕМЕНТЫ СТРАНИЦЫ
     const fileInput = document.getElementById('file-input');
     const fileListDisplay = document.getElementById('file-list');
     const submitBtn = document.getElementById('submit-to-registry');
     const promptContent = document.getElementById('drop-zone-prompt');
-    
+    const dropZone = document.getElementById('drop-zone');
+    const addFileBtn = document.getElementById('add-file-btn');
+
     let selectedFiles = [];
+
+    if (submitBtn) submitBtn.disabled = true;
+
+    if (addFileBtn && fileInput) {
+        addFileBtn.addEventListener('click', () => fileInput.click());
+    }
 
     if (fileInput) {
         fileInput.addEventListener('change', function() {
-            const newFiles = Array.from(this.files);
-            selectedFiles = [...selectedFiles, ...newFiles];
-            
-            renderFileList();
-            this.value = '';
+            if (this.files.length > 0) {
+                const newFiles = Array.from(this.files).map(file => ({
+                    file: file,
+                    verified: false 
+                }));
+                addFiles(newFiles);
+                this.value = ''; 
+            }
         });
     }
 
-    // Функция для отрисовки (рендера) списка файлов
+    if (dropZone) {
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const droppedFiles = Array.from(dt.files).filter(file => 
+                file.name.endsWith('.csv') || file.name.endsWith('.xlsx') || file.name.endsWith('.xls')
+            );
+
+            if (droppedFiles.length > 0) {
+                const newFiles = droppedFiles.map(file => ({
+                    file: file,
+                    verified: false
+                }));
+                addFiles(newFiles);
+            } else {
+                alert('Пожалуйста, загружайте только файлы таблиц (.csv, .xlsx)');
+            }
+        });
+    }
+
+    function addFiles(newObjects) {
+        selectedFiles = [...selectedFiles, ...newObjects];
+        renderFileList();
+    }
+
     function renderFileList() {
         if (!fileListDisplay) return;
-
         fileListDisplay.innerHTML = '';
         
         if (selectedFiles.length > 0) {
-            // Скрываем иконку папки и текст-заглушку
             if (promptContent) promptContent.style.display = 'none';
             if (submitBtn) submitBtn.disabled = false;
 
-            selectedFiles.forEach((file, index) => {
+            selectedFiles.forEach((obj, index) => {
                 const item = document.createElement('div');
                 item.className = 'file-item';
-                
-                // Формируем внутреннюю структуру плашки
                 item.innerHTML = `
-                    <span class="file-item__name">${file.name}</span>
-                    <div class="file-controls">
-                        <button type="button" class="btn-annul" title="Аннулировать/Верифицировать"></button>
-                        <button type="button" class="btn-remove" title="Удалить из списка">&times;</button>
+                <div class="file-item__name">
+                    <span style="font-size: 20px;">📄</span> 
+                    <span>${obj.file.name}</span>
+                </div>
+                <div class="file-controls">
+                    <div class="annul-wrapper">
+                        <span>Аннулирован</span>
+                        <button type="button" class="btn-annul ${obj.verified ? 'active' : ''}"></button>
+                        <span>Верифицирован</span>
                     </div>
-                `;
+                    <button type="button" class="btn-remove" title="Удалить">&times;</button>
+                </div>
+            `;
 
-                // 1. Логика чекбокса (Аннуляция)
-                const annulBtn = item.querySelector('.btn-annul');
-                annulBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    annulBtn.classList.toggle('active');
+                const toggle = item.querySelector('.btn-annul');
+                toggle.addEventListener('click', () => {
+                    obj.verified = !obj.verified;
+                    toggle.classList.toggle('active');
                 });
 
-                // 2. Логика удаления файла с анимацией
                 const removeBtn = item.querySelector('.btn-remove');
-                removeBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    
-                    // Добавляем класс для CSS-анимации исчезновения
+                removeBtn.addEventListener('click', () => {
                     item.classList.add('removing');
-                    
-                    // Ждем 300мс (пока отыграет анимация), затем удаляем из массива и перерисовываем
                     setTimeout(() => {
                         selectedFiles.splice(index, 1);
                         renderFileList();
@@ -66,41 +103,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 fileListDisplay.appendChild(item);
             });
         } else {
-            // Если файлов нет, возвращаем заглушку и блокируем кнопку отправки
             if (promptContent) promptContent.style.display = 'block';
             if (submitBtn) submitBtn.disabled = true;
         }
     }
 
-    // Обработка финальной отправки
     if (submitBtn) {
-        submitBtn.addEventListener('click', () => {
-            alert('Данные успешно отправлены в реестр дипломов!');
-            selectedFiles = []; // Очищаем список после "отправки"
+        submitBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Предотвращаем перезагрузку формы
+            console.log('Отправка данных:', selectedFiles);
+            alert('Дипломы успешно отправлены в реестр!');
+            selectedFiles = [];
             renderFileList();
-        });
-    }
-
-    // --- ЭЛЕМЕНТЫ СТРАНИЦЫ ДОБАВЛЕНИЯ СТУДЕНТА ---
-    const generateBtn = document.getElementById('generateBtn');
-    if (generateBtn) {
-        generateBtn.addEventListener('click', () => {
-            const passInput = document.getElementById('generatedPassword');
-            const charset = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-            let password = "";
-            
-            // Генерация случайного пароля из 10 символов
-            for (let i = 0; i < 10; i++) {
-                const randomIndex = Math.floor(Math.random() * charset.length);
-                password += charset.charAt(randomIndex);
-            }
-            
-            if (passInput) {
-                passInput.value = password;
-                // Небольшой визуальный эффект для инпута
-                passInput.style.backgroundColor = '#f0f7ff';
-                setTimeout(() => passInput.style.backgroundColor = '', 500);
-            }
         });
     }
 });

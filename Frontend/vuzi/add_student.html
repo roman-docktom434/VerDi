@@ -6,7 +6,7 @@
     <title>ВерДи — Регистрация студента</title>
     <link rel="stylesheet" href="assets/styles/style_add.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="js/script.js" defer></script>
+    <script src="assets/js/script_add.js" defer></script>
 </head>
 <body>
 
@@ -20,7 +20,7 @@
             <div class="user-info">
                 <span class="user-info__name">Название ВУЗа</span>
                 <div class="user-info__avatar">
-                    <img src="images/profile.png" alt="Профиль">
+                    <img src="assets/images/profile.png" alt="Профиль">
                 </div>
             </div>
         </div>
@@ -31,19 +31,21 @@
             <h2 class="section-title">Регистрация нового студента</h2>
             <p class="section-subtitle">Введите ФИО и создайте временный пароль для входа студента.</p>
             
-            <form id="studentForm" class="student-form">
+            <form id="studentForm" class="student-form" novalidate>
                 <div class="form-group">
-                    <label>ФИО студента</label>
-                    <input type="text" id="studentName" placeholder="Иванов Иван Иванович" required>
+                    <label for="studentName">ФИО студента</label>
+                    <input type="text" id="studentName" placeholder="Иванов Иван Иванович" autocomplete="off" required>
+                    <p id="nameError" class="error-message">Студент с таким ФИО не найден в базе данных или введён неверно</p>
                 </div>
 
                 <div class="form-group">
-                    <label>Временный пароль</label>
+                    <label for="generatedPassword">Временный пароль</label>
                     <div class="password-wrapper">
-                        <input type="text" id="generatedPassword" placeholder="Нажмите Сгенерировать" readonly required>
-                        <button type="button" class="btn-generate" id="generateBtn">Сгенерировать</button>
+                        <input type="text" id="generatedPassword" placeholder="Сначала введите ФИО" readonly required>
+                        <button type="button" class="btn-generate" id="generateBtn" disabled>Сгенерировать</button>
                     </div>
-                    <small>Скопируйте этот пароль и передайте его студенту.</small>
+                    <small class="form-hint">Кнопка генерации станет доступна после ввода ФИО студента.</small>
+                    <p id="passError" class="error-message">Пожалуйста, сгенерируйте пароль перед регистрацией</p>
                 </div>
 
                 <button type="submit" class="btn-submit">Зарегистрировать студента</button>
