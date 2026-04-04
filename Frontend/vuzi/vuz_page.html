@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ВерДи — Кабинет ВУЗа</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header__content">
+            <h1 class="logo">ВерДи</h1>
+            <div class="user-info">
+                <span class="user-info__name">Название ВУЗа</span>
+                <div class="user-info__avatar">
+                    <img src="images/profile.png" alt="Профиль">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="stats">
+            <div class="stats__card">
+                <span class="stats__number">1000</span>
+                <span class="stats__label">дипломов</span>
+            </div>
+            <div class="stats__card">
+                <span class="stats__number">100</span>
+                <span class="stats__label">верифицировано</span>
+            </div>
+            <div class="stats__card">
+                <span class="stats__number">50</span>
+                <span class="stats__label">аннулировано</span>
+            </div>
+            <div class="stats__card">
+                <span class="stats__number">850</span>
+                <span class="stats__label">в очереди</span>
+            </div>
+        </section>
+
+        <section class="upload-section">
+            <h2 class="section-title">Загрузка реестра дипломов</h2>
+            <div class="drop-zone" id="drop-zone">
+                <div id="file-list" class="file-list"></div>
+
+                <div class="drop-zone__content" id="drop-zone-prompt">
+                    <div class="drop-zone__icon">
+                        <img src="images/folder.png" alt="Загрузка" class="file-icon">
+                    </div>
+                    <p class="drop-zone__text">
+                        Выберите файлы на компьютере или перетащите сюда
+                    </p>
+                </div>
+                
+                <input type="file" id="file-input" style="display: none;" accept=".csv, .xlsx, .xls" multiple>
+                
+                <button class="btn-primary" onclick="document.getElementById('file-input').click()">
+                    Загрузить файлы
+                </button>
+            </div>
+        </section>
+
+        <section class="table-section">
+            <h2 class="section-title">Список дипломов</h2>
+            <div class="search-container">
+                <img src="images/Search.png" alt="Поиск" class="search-icon">
+                <input type="text" class="search-input" placeholder="Введите номер диплома">
+            </div>
+
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ФИО студента</th>
+                            <th>Специальность</th>
+                            <th>Дата выдачи</th>
+                            <th>Статус проверки</th>
+                        </tr>
+                    </thead>
+                    <tbody id="diploma-table-body">
+                        <tr>
+                            <td>Иванов Иван Иванович</td>
+                            <td>Информационные системы</td>
+                            <td>20.05.2025</td>
+                            <td>В очереди</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
