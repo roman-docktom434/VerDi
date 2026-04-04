@@ -1,0 +1,73 @@
+#ComName {
+  position: fixed;
+  left: 1.5%;
+  top: 1.5%;
+  color: whitesmoke;
+  text-shadow: black 5px 5px 15px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #bbb;
+}
+
+.container {
+  width: 50vh;
+  height: 31.5%;
+  background: #f3f3f3;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: #f3f3f3b0 5px 5px 15px;
+  padding: 3vh;
+}
+
+#top {
+  display: flex;
+  margin-bottom: 1rem;
+}
+#left_top {
+  vertical-align: middle;
+}
+#right_top {
+  display: flex;
+  width: 50%;
+  justify-content: flex-end;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+p {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+}
+
+.login {
+  width: 100%;
+  padding: 12px;
+  background: #577c8e;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
