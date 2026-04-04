@@ -172,44 +172,44 @@ input {
   .card * {
     margin: 2%;
   }
-  #UniqueText{
+  #UniqueText {
     display: none;
   }
-  #time-select{
+  #time-select {
     font-size: 100%;
     display: block;
     text-align: center;
   }
-  #time-select button{
+  #time-select button {
     font-size: xx-large;
   }
-  .qr{
+  .qr {
     width: 28vh;
     height: 28vh;
   }
-  .btn{
+  .btn {
     font-size: xx-large;
     width: 100%;
   }
-  #link-gen{
-    width: 100% ;
+  #link-gen {
+    width: 100%;
   }
-  #link-gen input{
+  #link-gen input {
     font-size: xx-large;
   }
-  #link-gen img{
+  #link-gen img {
     width: 5%;
   }
   .small {
     font-size: 60%;
   }
-  .small img{
+  .small img {
     width: 4%;
   }
-  .info{
+  .info {
     width: 80%;
   }
-  .link-block{
+  .link-block {
     row-gap: 1rem;
   }
 }
