@@ -1,68 +1,106 @@
-const dropZone = document.getElementById('drop-zone');
-const fileInput = document.getElementById('file-input');
-const fileList = document.getElementById('file-list');
+document.addEventListener('DOMContentLoaded', () => {
+    // --- ЭЛЕМЕНТЫ СТРАНИЦЫ ВУЗА ---
+    const fileInput = document.getElementById('file-input');
+    const fileListDisplay = document.getElementById('file-list');
+    const submitBtn = document.getElementById('submit-to-registry');
+    const promptContent = document.getElementById('drop-zone-prompt');
+    
+    let selectedFiles = [];
 
-// Обработка выбора файлов
-fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            const newFiles = Array.from(this.files);
+            selectedFiles = [...selectedFiles, ...newFiles];
+            
+            renderFileList();
+            this.value = '';
+        });
+    }
 
-function handleFiles(files) {
-    if (files.length === 0) return;
+    // Функция для отрисовки (рендера) списка файлов
+    function renderFileList() {
+        if (!fileListDisplay) return;
 
-    dropZone.classList.add('drop-zone--has-files');
+        fileListDisplay.innerHTML = '';
+        
+        if (selectedFiles.length > 0) {
+            // Скрываем иконку папки и текст-заглушку
+            if (promptContent) promptContent.style.display = 'none';
+            if (submitBtn) submitBtn.disabled = false;
 
-    Array.from(files).forEach(file => {
-        // Проверка: только CSV и Excel
-        const isExcel = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 
-                        file.type === 'application/vnd.ms-excel';
-        const isCSV = file.type === 'text/csv' || file.name.endsWith('.csv');
+            selectedFiles.forEach((file, index) => {
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                
+                // Формируем внутреннюю структуру плашки
+                item.innerHTML = `
+                    <span class="file-item__name">${file.name}</span>
+                    <div class="file-controls">
+                        <button type="button" class="btn-annul" title="Аннулировать/Верифицировать"></button>
+                        <button type="button" class="btn-remove" title="Удалить из списка">&times;</button>
+                    </div>
+                `;
 
-        if (isExcel || isCSV) {
-            addFileToList(file);
+                // 1. Логика чекбокса (Аннуляция)
+                const annulBtn = item.querySelector('.btn-annul');
+                annulBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    annulBtn.classList.toggle('active');
+                });
+
+                // 2. Логика удаления файла с анимацией
+                const removeBtn = item.querySelector('.btn-remove');
+                removeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    
+                    // Добавляем класс для CSS-анимации исчезновения
+                    item.classList.add('removing');
+                    
+                    // Ждем 300мс (пока отыграет анимация), затем удаляем из массива и перерисовываем
+                    setTimeout(() => {
+                        selectedFiles.splice(index, 1);
+                        renderFileList();
+                    }, 300);
+                });
+
+                fileListDisplay.appendChild(item);
+            });
         } else {
-            alert(`Файл ${file.name} не является реестром (нужен .csv или .xlsx).`);
+            // Если файлов нет, возвращаем заглушку и блокируем кнопку отправки
+            if (promptContent) promptContent.style.display = 'block';
+            if (submitBtn) submitBtn.disabled = true;
         }
-    });
-    fileInput.value = ''; // Сброс для возможности повторной загрузки
-}
+    }
 
-function addFileToList(file) {
-    const fileItem = document.createElement('div');
-    fileItem.className = 'file-item';
-    fileItem.innerHTML = `
-        <div class="file-item__info">
-            <span>📊 ${file.name}</span>
-        </div>
-        <div class="file-item__controls">
-            <label class="status-container">
-                <span class="status-label">Аннулирован/Верифицирован</span>
-                <input type="checkbox" class="status-checkbox">
-            </label>
-            <button class="btn-remove">✕</button>
-        </div>
-    `;
+    // Обработка финальной отправки
+    if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+            alert('Данные успешно отправлены в реестр дипломов!');
+            selectedFiles = []; // Очищаем список после "отправки"
+            renderFileList();
+        });
+    }
 
-    fileItem.querySelector('.btn-remove').onclick = () => {
-        fileItem.remove();
-        if (fileList.children.length === 0) {
-            dropZone.classList.remove('drop-zone--has-files');
-        }
-    };
-
-    fileList.appendChild(fileItem);
-}
-
-// Drag & Drop события
-dropZone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropZone.classList.add('drop-zone--dragover');
-});
-
-dropZone.addEventListener('dragleave', () => {
-    dropZone.classList.remove('drop-zone--dragover');
-});
-
-dropZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropZone.classList.remove('drop-zone--dragover');
-    handleFiles(e.dataTransfer.files);
+    // --- ЭЛЕМЕНТЫ СТРАНИЦЫ ДОБАВЛЕНИЯ СТУДЕНТА ---
+    const generateBtn = document.getElementById('generateBtn');
+    if (generateBtn) {
+        generateBtn.addEventListener('click', () => {
+            const passInput = document.getElementById('generatedPassword');
+            const charset = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            let password = "";
+            
+            // Генерация случайного пароля из 10 символов
+            for (let i = 0; i < 10; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset.charAt(randomIndex);
+            }
+            
+            if (passInput) {
+                passInput.value = password;
+                // Небольшой визуальный эффект для инпута
+                passInput.style.backgroundColor = '#f0f7ff';
+                setTimeout(() => passInput.style.backgroundColor = '', 500);
+            }
+        });
+    }
 });

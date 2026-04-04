@@ -4,19 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ВерДи — Кабинет ВУЗа</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/styles/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="script.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
 </head>
 <body>
 
     <header class="header">
         <div class="container header__content">
             <h1 class="logo">ВерДи</h1>
+            
+            <nav class="header__nav">
+                <a href="vuz_page.html" class="nav-link active">Список дипломов</a>
+                <a href="add_student.html" class="nav-link">Добавить студента</a>
+            </nav>
+
             <div class="user-info">
                 <span class="user-info__name">Название ВУЗа</span>
                 <div class="user-info__avatar">
-                    <img src="images/profile.png" alt="Профиль">
+                    <img src="assets/images/profile.png" alt="Профиль">
                 </div>
             </div>
         </div>
@@ -44,12 +50,13 @@
 
         <section class="upload-section">
             <h2 class="section-title">Загрузка реестра дипломов</h2>
+            
             <div class="drop-zone" id="drop-zone">
                 <div id="file-list" class="file-list"></div>
 
                 <div class="drop-zone__content" id="drop-zone-prompt">
                     <div class="drop-zone__icon">
-                        <img src="images/folder.png" alt="Загрузка" class="file-icon">
+                        <img src="assets/images/folder.png" alt="Загрузка" class="file-icon">
                     </div>
                     <p class="drop-zone__text">
                         Выберите файлы на компьютере или перетащите сюда
@@ -58,16 +65,21 @@
                 
                 <input type="file" id="file-input" style="display: none;" accept=".csv, .xlsx, .xls" multiple>
                 
-                <button class="btn-primary" onclick="document.getElementById('file-input').click()">
-                    Загрузить файлы
-                </button>
+                <div class="upload-buttons">
+                    <button type="button" class="btn-secondary" onclick="document.getElementById('file-input').click()">
+                        Добавить файл
+                    </button>
+                    <button type="button" id="submit-to-registry" class="btn-primary" disabled>
+                        Отправить в реестр
+                    </button>
+                </div>
             </div>
         </section>
 
         <section class="table-section">
             <h2 class="section-title">Список дипломов</h2>
             <div class="search-container">
-                <img src="images/Search.png" alt="Поиск" class="search-icon">
+                <img src="assets/images/Search.png" alt="Поиск" class="search-icon">
                 <input type="text" class="search-input" placeholder="Введите номер диплома">
             </div>
 

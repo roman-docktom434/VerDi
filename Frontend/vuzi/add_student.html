@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ВерДи — Регистрация студента</title>
+    <link rel="stylesheet" href="assets/styles/style_add.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header__content">
+            <h1 class="logo">ВерДи</h1>
+            <nav class="header__nav">
+                <a href="vuz_page.html" class="nav-link">Список дипломов</a>
+                <a href="add_student.html" class="nav-link active">Добавить студента</a>
+            </nav>
+            <div class="user-info">
+                <span class="user-info__name">Название ВУЗа</span>
+                <div class="user-info__avatar">
+                    <img src="images/profile.png" alt="Профиль">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="form-section">
+            <h2 class="section-title">Регистрация нового студента</h2>
+            <p class="section-subtitle">Введите ФИО и создайте временный пароль для входа студента.</p>
+            
+            <form id="studentForm" class="student-form">
+                <div class="form-group">
+                    <label>ФИО студента</label>
+                    <input type="text" id="studentName" placeholder="Иванов Иван Иванович" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Временный пароль</label>
+                    <div class="password-wrapper">
+                        <input type="text" id="generatedPassword" placeholder="Нажмите Сгенерировать" readonly required>
+                        <button type="button" class="btn-generate" id="generateBtn">Сгенерировать</button>
+                    </div>
+                    <small>Скопируйте этот пароль и передайте его студенту.</small>
+                </div>
+
+                <button type="submit" class="btn-submit">Зарегистрировать студента</button>
+            </form>
+        </section>
+    </main>
+
+</body>
+</html>
