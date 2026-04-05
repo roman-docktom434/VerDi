@@ -43,13 +43,13 @@
                 <span class="stats__label">аннулировано</span>
             </div>
             <div class="stats__card">
-                <span class="stats__number">0</span>
+                <span class="stats__number">850</span>
                 <span class="stats__label">в очереди</span>
             </div>
         </section>
 
         <section class="upload-section">
-            <h2 class="section-title">Загрузка и проверка диплома</h2>
+            <h2 class="section-title">Загрузка и проверка реестра</h2>
             
             <form id="uploadForm">
                 <div class="drop-zone" id="drop-zone">
@@ -70,7 +70,7 @@
                             Добавить файл
                         </button>
                         <button type="submit" id="submit-to-registry" class="btn-primary" disabled>
-                            Внести в список
+                            Синхронизировать с реестром
                         </button>
                     </div>
                 </div>
@@ -82,17 +82,12 @@
             
             <div class="search-container">
                 <img src="assets/images/Search.png" alt="Поиск" class="search-icon">
-<<<<<<< HEAD
                 <input type="text" class="search-input" placeholder="Поиск по номеру или ФИО">
-=======
-                <input type="text" id="searchInput" class="search-input" placeholder="Введите номер диплома">
->>>>>>> 44591b67c286c4d1a7b55ad65822e1063dec0ba3
             </div>
 
             <div class="table-wrapper">
                 <table class="data-table">
                     <thead>
-<<<<<<< HEAD
                         <tr>
                             <th>ФИО Студента</th>
                             <th>Специальность</th>
@@ -111,115 +106,11 @@
                             <td><span class="uniqueness-badge">98%</span></td>
                             <td><span class="status-badge">Активен</span></td>
                         </tr>
-=======
-                    <tr>
-                        <th>ФИО Студента</th>
-                        <th>Специальность</th>
-                        <th>№ Диплома</th>
-                        <th>Дата выдачи (Год)</th>
-                        <th>Статус</th>
-                    </tr>
-                    </thead>
-                    <tbody>
->>>>>>> 44591b67c286c4d1a7b55ad65822e1063dec0ba3
                     </tbody>
                 </table>
             </div>
         </section>
     </main>
-    <script>
-        function updateUserName() {
-            const name = localStorage.getItem('userName');
-            const display = document.querySelector('.user-info__name');
-            if (name && display) {
-                display.textContent = name;
-            }
-        }
 
-        async function loadDiploms() {
-            try {
-                // Проверь путь! Если в контроллере @RequestMapping("/api"), то путь такой:
-                const response = await fetch('http://localhost:8080/api/diploms/all');
-
-                if (!response.ok) {
-                    throw new Error(`Ошибка сервера: ${response.status}`);
-                }
-
-                const diploms = await response.json();
-                const tbody = document.querySelector('.data-table tbody');
-
-                if (!tbody) {
-                    console.error("Не найден элемент tbody в таблице .data-table");
-                    return;
-                }
-
-                tbody.innerHTML = ''; // Очищаем статику
-
-                diploms.forEach(d => {
-                    const tr = document.createElement('tr');
-                    const isCancelled = (d.cancelled === 1);
-                    const statusText = isCancelled ? 'Аннулирован' : 'Верифицирован';
-                    const statusClass = isCancelled ? 'status-badge--red' : 'status-badge--green';
-
-                    tr.innerHTML = `
-                    <td>${d.fullName || '—'}</td>
-                    <td>${d.faculty || '—'}</td>
-                    <td><b>${d.diplomNumber}</b></td>
-                    <td>${d.year || '—'}</td>
-                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                `;
-                    tbody.appendChild(tr);
-                });
-
-                // Обновляем счетчики наверху страницы (опционально)
-                updateStats(diploms);
-
-            } catch (err) {
-                console.error("Ошибка загрузки данных:", err);
-            }
-        }
-
-        function updateStats(diploms) {
-            const stats = document.querySelectorAll('.stats__number');
-            if (stats.length >= 3) {
-                stats[0].textContent = diploms.length; // Всего
-                stats[1].textContent = diploms.filter(d => d.cancelled === 0).length; // Верифицировано
-                stats[2].textContent = diploms.filter(d => d.cancelled === 1).length; // Аннулировано
-            }
-        }
-
-        // ГЛАВНОЕ: Запускаем функции при загрузке страницы
-        document.addEventListener('DOMContentLoaded', () => {
-            updateUserName();
-            loadDiploms();
-        });
-        document.addEventListener('DOMContentLoaded', () => {
-            updateUserName();
-            loadDiploms();
-
-            // --- ЛОГИКА ПОИСКА ---
-            const searchInput = document.getElementById('searchInput');
-
-            searchInput.addEventListener('input', function() {
-                const filter = this.value.toLowerCase(); // Что ввел пользователь
-                const rows = document.querySelectorAll('.data-table tbody tr'); // Все строки таблицы
-
-                rows.forEach(row => {
-                    // Номер диплома у нас в третьей колонке (индекс 2)
-                    const diplomCell = row.getElementsByTagName('td')[2];
-                    if (diplomCell) {
-                        const textValue = diplomCell.textContent || diplomCell.innerText;
-
-                        // Если номер содержит введенные цифры — показываем строку, иначе скрываем
-                        if (textValue.toLowerCase().indexOf(filter) > -1) {
-                            row.style.display = "";
-                        } else {
-                            row.style.display = "none";
-                        }
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>
