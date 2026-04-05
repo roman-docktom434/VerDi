@@ -47,17 +47,17 @@
         </div>
         <div id="time-select">
           <p>Выберите время для действия ссылки:</p>
-
           <button class="active" onclick="setTime(this)">12ч</button>
           <button onclick="setTime(this)">24ч</button>
           <button onclick="setTime(this)">48ч</button>
         </div>
-
-        <button class="btn">Сгенерировать ссылку</button>
-        <div id="link-gen">
-          <input value="https://example.com/link" />
-          <img src="img/copy.svg" />
-        </div>
+        <section class="section-link">
+          <button class="btn">Сгенерировать ссылку</button>
+          <div id="link-gen">
+            <input class="input-link" value="https://example.com/link"/>
+            <img class="link-image" src="img/copy.svg" />
+          </div>
+        </section>
       </div>
     </div>
   </body>

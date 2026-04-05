@@ -14,6 +14,7 @@ body {
 
 .header {
   height: 60px;
+  color:#567b8e;
   background: #cfdbe5;
   display: flex;
   align-items: center;
@@ -66,7 +67,7 @@ input {
 }
 
 .card {
-  background: #ddd6cf;
+  background: #cfdbe5;
   padding: 5%;
   border-radius: 10px;
   display: flex;
@@ -118,56 +119,74 @@ input {
 }
 
 #time-select .active {
-  background: #6b8796;
+  background: #567b8e;
   color: white;
 }
 
 #link-gen {
+  position: relative;
   width: 43.5%;
   display: flex;
-  gap: 2%;
 }
 
 .btn {
+  justify-content: space-between;
   padding: 10px;
   border: none;
-  background: #6b8796;
-  color: white;
+  background: #ddd6cf ;
+  color: #567b8e;
   border-radius: 5px;
   cursor: pointer;
+  text-align: left;
   margin-bottom: 10px;
   width: 40%;
+  height: 50px;
 }
 
-.small {
-  font-size: 12px;
-  font-weight: 600;
-  color: #666;
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.btn:active {
+    transform: scale(0.95);
+}
+
+.input-link {
+  position: relative;
   display: flex;
-  align-items: center;
-  gap: 1%;
+  border: none;
+  background: #ddd6cf;
+  color:#567b8e;
 }
-
-.small img {
-  width: 2.5%;
+.link-image{
+  position: absolute;
+  right: 0;
+  margin: 10px;
+  width: 30px;
+  height: 30px;
+}
+.section-link {
+  display: flex;
+  gap: 20px;
+  height: 50px;
 }
 
 /* ================= MOBILE ================= */
 @media (orientation: portrait) {
-  .header {
-    display: none;
-  }
-  #search {
-    display: none;
-  }
   body {
-    background-color: #ddd6cf;
+    background-color: white;
     font-size: 270%;
   }
+  h1 { font-size: 36px; }
+  h2 { font-size: 30px; }
+  h3 { font-size: 24px; }
+  h4 { font-size: 20px; }
+  h5 { font-size: 20px; }
+  h6 { font-size: 16px; }
+  p {font-size: 18px;}
+  .logo {font-size: 18px;}
   .card {
     flex-direction: column;
-    text-align: center;
-    align-items: center;
   }
   .card * {
     margin: 2%;
@@ -178,30 +197,35 @@ input {
   #time-select {
     font-size: 100%;
     display: block;
-    text-align: center;
   }
   #time-select button {
-    font-size: xx-large;
+    font-size: large;
   }
   .qr {
     width: 28vh;
     height: 28vh;
   }
   .btn {
-    font-size: xx-large;
+    font-size: large;
     width: 100%;
+  }
+  .section-link{
+    display: block;
   }
   #link-gen {
     width: 100%;
   }
   #link-gen input {
-    font-size: xx-large;
+    font-size: large;
   }
   #link-gen img {
-    width: 5%;
+    width: 20%;
   }
   .small {
     font-size: 60%;
+  }
+  .link-image{
+    display: none;
   }
   .small img {
     width: 4%;
