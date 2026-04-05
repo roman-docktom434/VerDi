@@ -49,7 +49,7 @@
         </section>
 
         <section class="upload-section">
-            <h2 class="section-title">Загрузка реестра дипломов</h2>
+            <h2 class="section-title">Загрузка и проверка диплома</h2>
             
             <form id="uploadForm">
                 <div class="drop-zone" id="drop-zone">
@@ -57,7 +57,7 @@
                     <div class="drop-zone__content" id="drop-zone-prompt">
                         <img src="assets/images/folder.png" alt="Загрузка" class="drop-zone__icon">
                         <p class="drop-zone__prompt">
-                            Выберите файлы на компьютере или перетащите сюда
+                            Перетащите файлы реестра сюда или используйте кнопку ниже
                         </p>
                     </div>
 
@@ -70,7 +70,7 @@
                             Добавить файл
                         </button>
                         <button type="submit" id="submit-to-registry" class="btn-primary" disabled>
-                            Отправить в реестр
+                            Внести в список
                         </button>
                     </div>
                 </div>
@@ -78,11 +78,11 @@
         </section>
 
         <section class="table-section">
-            <h2 class="section-title">Список дипломов</h2>
+            <h2 class="section-title">Архив выданных дипломов</h2>
             
             <div class="search-container">
                 <img src="assets/images/Search.png" alt="Поиск" class="search-icon">
-                <input type="text" class="search-input" placeholder="Введите номер диплома">
+                <input type="text" class="search-input" placeholder="Поиск по номеру или ФИО">
             </div>
 
             <div class="table-wrapper">
@@ -93,6 +93,7 @@
                             <th>Специальность</th>
                             <th>№ Диплома</th> 
                             <th>Дата выдачи</th>
+                            <th>Уникальность</th>
                             <th>Статус</th>
                         </tr>
                     </thead>
@@ -102,9 +103,10 @@
                             <td>Информационные системы</td>
                             <td><b>77АБ 123456</b></td> 
                             <td>25.05.2026</td>
+                            <td><span class="uniqueness-badge">98%</span></td>
                             <td><span class="status-badge">Активен</span></td>
                         </tr>
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
         </section>

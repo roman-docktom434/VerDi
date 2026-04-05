@@ -32,7 +32,7 @@ body {
     padding: 0 20px;
 }
 
-/*ЗАГОЛОВКИ*/
+/* ЗАГОЛОВКИ */
 .section-title {
     font-size: 22px;
     font-weight: 700;
@@ -119,7 +119,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: none;
 }
 
 .user-info__avatar img {
@@ -128,7 +127,7 @@ body {
     object-fit: cover;
 }
 
-/*СТАТИСТИКА*/
+/* СТАТИСТИКА */
 .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -160,7 +159,7 @@ body {
     text-transform: uppercase;
 }
 
-/*ЗОНА ЗАГРУЗКИ*/
+/* ЗОНА ЗАГРУЗКИ */
 .drop-zone {
     border: 2px dashed #b1d8fb;
     border-radius: 12px;
@@ -192,7 +191,7 @@ body {
     margin-bottom: 10px;
 }
 
-/*СПИСОК ФАЙЛОВ*/
+/* СПИСОК ФАЙЛОВ */
 .file-list {
     width: 100%;
     max-width: 800px;
@@ -211,6 +210,7 @@ body {
     border-radius: 10px;
     border: 1px solid var(--border-color);
     animation: fadeIn 0.3s ease;
+    transition: var(--transition);
 }
 
 @keyframes fadeIn {
@@ -236,11 +236,12 @@ body {
 .annul-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     font-size: 12px;
     color: var(--text-light);
 }
 
+/* КНОПКИ-ПЕРЕКЛЮЧАТЕЛИ */
 .btn-annul {
     width: 36px;
     height: 18px;
@@ -250,10 +251,6 @@ body {
     cursor: pointer;
     border: none;
     transition: var(--transition);
-}
-
-.btn-annul.active {
-    background-color: var(--success-color);
 }
 
 .btn-annul::before {
@@ -272,6 +269,15 @@ body {
     left: 20px;
 }
 
+/* Цвета для активных состояний переключателей */
+.btn-action-verify.active {
+    background-color: var(--success-color);
+}
+
+.btn-action-annul.active {
+    background-color: var(--danger-color);
+}
+
 .btn-remove {
     background: #fff5f5;
     color: var(--danger-color);
@@ -281,6 +287,10 @@ body {
     border-radius: 6px;
     cursor: pointer;
     transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
 }
 
 .btn-remove:hover {
@@ -288,7 +298,7 @@ body {
     color: white;
 }
 
-/*КНОПКИ*/
+/* КНОПКИ ДЕЙСТВИЯ */
 .upload-buttons {
     display: flex;
     gap: 15px;
@@ -315,10 +325,6 @@ body {
     box-shadow: 0 4px 10px rgba(100, 130, 150, 0.2);
 }
 
-.btn-primary:active:not(:disabled) {
-    transform: translateY(0);
-}
-
 .btn-primary:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -330,12 +336,7 @@ body {
     border: 1px solid var(--border-color);
 }
 
-.btn-secondary:hover {
-    background-color: #ebe7e2;
-    transform: translateY(-2px);
-}
-
-/*ПОИСК*/
+/* ПОИСК */
 .search-container {
     position: relative;
     max-width: 400px;
@@ -365,20 +366,18 @@ body {
     border-color: var(--accent-color);
 }
 
-/*ТАБЛИЦА*/
+/* ТАБЛИЦА */
 .table-wrapper {
     background: #fff;
     border: 1px solid var(--border-color);
     border-radius: 12px;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
     box-shadow: var(--shadow);
 }
 
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px; 
 }
 
 .data-table th {
@@ -395,78 +394,29 @@ body {
     border-top: 1px solid #f0f3f5;
 }
 
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #f0fff4;
+    color: var(--success-color);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.uniqueness-badge {
+    font-weight: 700;
+    color: var(--success-color);
+}
+
+/* АДАПТИВНОСТЬ */
 @media (max-width: 1024px) {
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    .stats { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
-    .header { height: auto; padding: 20px 0; }
     .header__content { flex-direction: column; gap: 15px; }
-    
-    .header__nav { 
-        margin: 0; 
-        width: 100%; 
-        justify-content: center; 
-        order: 3; 
-        gap: 20px; 
-    }
-    
-    .nav-link { line-height: 1.5; }
-    .nav-link.active::after { bottom: -5px; }
-
-    .user-info { order: 2; }
-    .logo { order: 1; margin-right: 0; }
-
-    .stats {
-        grid-template-columns: 1fr;
-    }
-
-    .drop-zone {
-        padding: 30px 15px;
-    }
-
-    .file-item {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-
-    .file-item__name {
-        justify-content: center;
-    }
-
-    .file-controls {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .upload-buttons {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .btn-primary, .btn-secondary {
-        width: 100%;
-    }
-
-    .search-container {
-        max-width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .header__nav {
-        gap: 15px;
-    }
-
-    .nav-link {
-        font-size: 14px;
-    }
-
-    .annul-wrapper {
-        flex-direction: column;
-        gap: 4px;
-    }
+    .header__nav { width: 100%; justify-content: center; order: 3; gap: 20px; }
+    .stats { grid-template-columns: 1fr; }
+    .upload-buttons { flex-direction: column; width: 100%; }
+    .btn-primary, .btn-secondary { width: 100%; }
 }
