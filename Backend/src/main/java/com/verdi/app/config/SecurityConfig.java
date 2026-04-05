@@ -27,35 +27,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 1. Отключаем CSRF (ты это уже сделал, оставляем)
                 .csrf(csrf -> csrf.disable())
-
-                // 2. Явно подключаем CORS конфигурацию, которую мы описали ниже в бине
                 .cors(Customizer.withDefaults())
-
-                // 3. Настройка доступов
                 .authorizeHttpRequests(auth -> auth
-                        // Проверь, чтобы эндпоинты в контроллере точно начинались с /api/auth
-                        .requestMatchers("/api/auth/**", "/api/dict/**").permitAll()
+                        // Добавляем новый путь в список разрешенных
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/api/dict/**",
+                                "/api/upload",
+                                "/api/diploms/**",
+                                "/api/students/activate" // ВОТ ЭТО ДОБАВИТЬ
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
-                // 4. Важно: если ты используешь базовую форму логина Spring, она может перехватывать запросы.
-                // Добавь это, чтобы отключить стандартную страницу логина Spring Security
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable());
 
         return http.build();
     }
 
-    // Этот бин нужен, чтобы браузер не блокировал запросы с порта 63343
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Разрешаем твой порт (например, из IntelliJ Live Edit или просто файл)
+        // Разрешаем любые источники для разработки
         configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowCredentials(true); // Позволяет передавать куки/токены если понадобится
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

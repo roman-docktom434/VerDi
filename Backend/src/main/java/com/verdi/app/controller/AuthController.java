@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
 public class AuthController {
 
     @Autowired
@@ -43,140 +43,129 @@ public class AuthController {
     }
 
     private ResponseEntity<String> saveStudent(Map<String, String> data) {
-        String fio = data.get("fio");
-        String rawDiplom = data.get("diplomCode");
-        String rawPassword = data.get("password");
+        String diplomCode = data.get("identifier");
 
-        if (fio == null || rawDiplom == null || rawPassword == null) {
-            return ResponseEntity.badRequest().body("Ошибка: ФИО, номер диплома и пароль обязательны");
+        if (diplomCode == null) {
+            return ResponseEntity.badRequest().body("Ошибка: Номер диплома (identifier) не передан!");
         }
 
-        String[] parts = fio.trim().split("\\s+");
-        String s = parts.length >= 1 ? parts[0] : "";
-        String n = parts.length >= 2 ? parts[1] : "";
-        String m = parts.length >= 3 ? parts[2] : "";
-        String hashedDiplom = HashUtil.hashSHA256(rawDiplom);
-
-        // ПРОВЕРКА УНИКАЛЬНОСТИ
-        if (studentRepository.existsBySernameAndNameAndMiddleNameAndDiplomCode(s, n, m, hashedDiplom)) {
-            return ResponseEntity.badRequest().body("Ошибка: Студент с таким ФИО и дипломом уже зарегистрирован");
+        if (studentRepository.existsById(diplomCode)) {
+            return ResponseEntity.badRequest().body("Студент уже зарегистрирован!");
         }
 
-        Student student = new Student();
-        student.setSername(s);
-        student.setName(n);
-        student.setMiddleName(m);
-        student.setDiplomCode(hashedDiplom);
-        student.setPassword(HashUtil.hashSHA256(rawPassword));
+        Student s = new Student();
+        s.setDiplomCode(diplomCode);
+        s.setSername(data.get("surname"));
+        s.setName(data.get("name"));
+        s.setMiddleName(data.get("middle_name"));
+        s.setPassword(HashUtil.hashSHA256(data.get("password")));
 
-        if (data.containsKey("hsCode")) {
-            student.setHsCode(HashUtil.hashSHA256(data.get("hsCode")));
+        if (data.containsKey("hs_code")) {
+            s.setHsCode(HashUtil.hashSHA256(data.get("hs_code")));
         }
 
-        studentRepository.save(student);
+        studentRepository.save(s);
         return ResponseEntity.ok("Студент успешно зарегистрирован");
     }
 
     private ResponseEntity<String> saveUniversity(Map<String, String> data) {
-        String name = data.get("name"); // Убедись, что в HTML name="name"
-        String rawCode = data.get("hsCode");
-        String rawPassword = data.get("password");
-
-        if (name == null || rawCode == null || rawPassword == null) {
-            return ResponseEntity.badRequest().body("Ошибка: Название, код и пароль обязательны");
+        String hsName = data.get("name");
+        String hsCodeRaw = data.get("identifier");
+        if (hsCodeRaw == null || hsCodeRaw.isEmpty()) {
+            return ResponseEntity.badRequest().body("Ошибка: Код ВУЗа не передан (identifier is null)");
         }
-
-        String hashedCode = HashUtil.hashSHA256(rawCode);
-
-        // ПРОВЕРКА УНИКАЛЬНОСТИ (по @Id)
-        if (highschoolRepository.existsById(hashedCode)) {
-            return ResponseEntity.badRequest().body("Ошибка: ВУЗ с таким кодом уже зарегистрирован");
+        if (highschoolRepository.existsById(HashUtil.hashSHA256(hsCodeRaw))) {
+            return ResponseEntity.badRequest().body("ВУЗ с таким кодом уже существует!");
         }
 
         Highschool hs = new Highschool();
-        hs.setHsCode(hashedCode);
-        hs.setName(name);
-        hs.setPassword(HashUtil.hashSHA256(rawPassword));
+        hs.setHsCode(HashUtil.hashSHA256(hsCodeRaw));
+        hs.setName(hsName);
+        hs.setPassword(HashUtil.hashSHA256(data.get("password")));
 
         highschoolRepository.save(hs);
-        return ResponseEntity.ok("ВУЗ успешно зарегистрирован!");
+        return ResponseEntity.ok("ВУЗ успешно зарегистрирован");
     }
 
     private ResponseEntity<String> saveEmployer(Map<String, String> data) {
-        String name = data.get("name");
-        String email = data.get("email");
-        String password = data.get("password");
+        String emailRaw = data.get("identifier");
+        String companyName = data.get("name");
 
-        if (name == null || email == null || password == null) {
-            return ResponseEntity.badRequest().body("Ошибка: Все поля обязательны");
+        if (hrRepository.existsById(HashUtil.hashSHA256(emailRaw))) {
+            return ResponseEntity.badRequest().body("Пользователь с таким e-mail уже существует!");
         }
-
-        String hashedEmail = HashUtil.hashSHA256(email);
-
-        // 1. Проверка по почте (ID)
-        if (hrRepository.existsById(hashedEmail)) {
-            return ResponseEntity.badRequest().body("Ошибка: Эта почта уже зарегистрирована");
-        }
-
-        // 2. Проверка по названию организации (Unique Field)
-        if (hrRepository.existsByName(name)) {
-            return ResponseEntity.badRequest().body("Ошибка: Организация с таким названием уже зарегистрирована");
+        if (hrRepository.existsByName(companyName)) {
+            return ResponseEntity.badRequest().body("Компания с таким названием уже зарегистрирована!");
         }
 
         HR hr = new HR();
-        hr.setEmail(hashedEmail);
-        hr.setName(name);
-        hr.setPassword(HashUtil.hashSHA256(password));
+        hr.setEmail(HashUtil.hashSHA256(emailRaw));
+        hr.setName(companyName);
+        hr.setPassword(HashUtil.hashSHA256(data.get("password")));
 
         hrRepository.save(hr);
-        return ResponseEntity.ok("Работодатель успешно зарегистрирован!");
+        return ResponseEntity.ok("Работодатель успешно зарегистрирован");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> data) {
+    public ResponseEntity<?> login(@RequestBody Map<String, String> data) {
         String type = data.get("type");
         String password = data.get("password");
+        String hashedPassword = HashUtil.hashSHA256(password);
+
+        Map<String, String> responseBody = new HashMap<>();
 
         if ("university".equals(type)) {
             String identifier = data.get("identifier");
-            Highschool hs = null;
+            String hashedId = HashUtil.hashSHA256(identifier);
+            Highschool hs = highschoolRepository.findById(hashedId).orElse(null);
+            if (hs == null) hs = highschoolRepository.findByName(identifier);
 
-            // Сначала ищем по хэшированному коду
-            hs = highschoolRepository.findById(HashUtil.hashSHA256(identifier)).orElse(null);
-
-            // Если не нашли, ищем по открытому имени
-            if (hs == null) {
-                hs = highschoolRepository.findByName(identifier);
-            }
-
-            if (hs != null && hs.getPassword().equals(HashUtil.hashSHA256(password))) {
-                return ResponseEntity.ok("Вход выполнен (ВУЗ)");
+            if (hs != null && hs.getPassword().equals(hashedPassword)) {
+                responseBody.put("name", hs.getName());
+                responseBody.put("type", "university");
+                return ResponseEntity.ok(responseBody);
             }
         }
         else if ("student".equals(type)) {
+            // Достаем ФИО и Диплом из Map data
             String fio = data.get("fio");
-            String diplom = data.get("diplomCode");
+            String diplom = data.get("identifier"); // В JS мы договорились слать под ключом identifier
 
-            String hashedDiplom = HashUtil.hashSHA256(diplom);
-            String hashedPassword = HashUtil.hashSHA256(password);
+            if (fio == null || diplom == null) {
+                return ResponseEntity.badRequest().body("ФИО или номер диплома не переданы");
+            }
 
+            // Разбиваем ФИО на части
             String[] parts = fio.trim().split("\\s+");
+
+            // ОБЪЯВЛЯЕМ переменные sn, n, mn прямо здесь
             String sn = parts.length >= 1 ? parts[0] : "";
             String n = parts.length >= 2 ? parts[1] : "";
             String mn = parts.length >= 3 ? parts[2] : "";
 
-            Optional<Student> studentOpt = studentRepository.findBySernameAndNameAndMiddleNameAndDiplomCode(sn, n, mn, hashedDiplom);
+            Optional<Student> studentOpt = studentRepository.findBySernameAndNameAndMiddleNameAndDiplomCode(sn, n, mn, diplom);
 
             if (studentOpt.isPresent() && studentOpt.get().getPassword().equals(hashedPassword)) {
-                return ResponseEntity.ok("Вход выполнен (Студент)");
+                Student s = studentOpt.get();
+
+                responseBody.put("name", s.getSername() + " " + s.getName());
+                responseBody.put("type", "student");
+                responseBody.put("status", "success");
+
+                return ResponseEntity.ok(responseBody);
             }
         }
         else if ("employer".equals(type)) {
             String hashedEmail = HashUtil.hashSHA256(data.get("identifier"));
             Optional<HR> hrOpt = hrRepository.findById(hashedEmail);
 
-            if (hrOpt.isPresent() && hrOpt.get().getPassword().equals(HashUtil.hashSHA256(password))) {
-                return ResponseEntity.ok("Вход выполнен (Работодатель)");
+            if (hrOpt.isPresent() && hrOpt.get().getPassword().equals(hashedPassword)) {
+                HR hr = hrOpt.get();
+                // КЛАДЕМ ДАННЫЕ В MAP
+                responseBody.put("name", hr.getName());
+                responseBody.put("type", "employer");
+                return ResponseEntity.ok(responseBody);
             }
         }
 
