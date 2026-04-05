@@ -1,55 +1,55 @@
 <!doctype html>
 <html lang="ru">
-  <head>
+<head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/login.css" />
-    <script src="js/login.js"></script>
-    <title>Вход в аккаунт</title>
-  </head>
+    <title>Вход в аккаунт — ВерДи</title>
+</head>
 
-  <body>
-    <h1 id="ComName">ВерДи</h1>
+<body>
+<h1 id="ComName">ВерДи</h1>
 
-    <div class="container">
-      <!-- Левая часть -->
-      <div id="left">
-        <img src="img/r&l_image.svg" alt="" />
-      </div>
+<div class="container">
+    <div id="left">
+        <img src="img/r&l_image.svg" alt="Illustration" />
+    </div>
 
-      <!-- Правая часть -->
-      <div id="right">
+    <div id="right">
         <h2>Добро пожаловать!</h2>
         <p>Войдите в аккаунт</p>
 
         <div class="tabs">
-          <button class="tab active" onclick="switchTab(0)">ВУЗ</button>
-          <button class="tab" onclick="switchTab(1)">Студент</button>
-          <button class="tab" onclick="switchTab(2)">Работодатель</button>
+            <button type="button" class="tab active" onclick="switchTab(0)">ВУЗ</button>
+            <button type="button" class="tab" onclick="switchTab(1)">Студент</button>
+            <button type="button" class="tab" onclick="switchTab(2)">Работодатель</button>
         </div>
 
-        <!-- Вкладка "ВУЗ" -->
-        <div class="form active">
-          <input type="text" placeholder="Введите название или код ВУЗа" />
-          <input type="password" placeholder="Введите пароль" />
-        </div>
+        <form id="loginForm">
+            <input type="hidden" name="type" id="type" value="university">
 
-        <!-- Вкладка "Студент" -->
-        <div class="form">
-          <input type="text" placeholder="Введите ФИО" />
-          <input type="number" placeholder="Введите номер диплома" />
-          <input type="number" placeholder="Введите код ВУЗа" />
-        </div>
+            <div class="form active">
+                <input type="text" name="hsCode" placeholder="Введите код ВУЗа" required />
+                <input type="password" name="password" placeholder="Введите пароль" required />
+            </div>
 
-        <!-- Вкладка "Работодатель" -->
-        <div class="form">
-          <input type="text" placeholder="Введите e-mail или название организации" />
-          <input type="password" placeholder="Введите пароль" />
-        </div>
+            <div class="form">
+                <input type="text" name="diplomCode" placeholder="Введите номер диплома" required />
+                <input type="password" name="password" placeholder="Введите пароль" required />
+            </div>
 
-        <button class="btn">Войти в аккаунт</button>
+            <div class="form">
+                <input type="email" name="email" placeholder="Введите ваш e-mail" required />
+                <input type="password" name="password" placeholder="Введите пароль" required />
+            </div>
+
+            <button type="submit" class="btn">Войти в аккаунт</button>
+        </form>
 
         <div class="login">Нет аккаунта? <a href="register.html">Зарегистрироваться</a></div>
-      </div>
     </div>
-  </body>
+</div>
+
+<script src="js/login.js"></script>
+</body>
 </html>

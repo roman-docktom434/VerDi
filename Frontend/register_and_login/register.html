@@ -1,62 +1,63 @@
 <!doctype html>
 <html lang="ru">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="css/register.css" />
-    <script src="js/register.js"></script>
-    <title>Регистрация</title>
-  </head>
+    <script src="js/register.js" defer></script>
+    <title>Регистрация — ВерДи</title>
+</head>
 
-  <body>
-    <h1 id="ComName">ВерДи</h1>
+<body>
+<h1 id="ComName">ВерДи</h1>
 
-    <div class="container">
-      <!-- Левая часть -->
-      <div id="left">
-        <img src="img/r&l_image.svg" alt="" />
-      </div>
+<div class="container">
+    <div id="left">
+        <img src="img/r&l_image.svg" alt="Illustration" />
+    </div>
 
-      <!-- Правая часть -->
-      <div id="right">
+    <div id="right">
         <h2>Добро пожаловать!</h2>
         <p>Зарегистрируйте аккаунт</p>
 
         <div class="tabs">
-          <button class="tab active" onclick="switchTab(0)">ВУЗ</button>
-          <button class="tab" onclick="switchTab(1)">Студент</button>
-          <button class="tab" onclick="switchTab(2)">Работодатель</button>
+            <button class="tab active" onclick="switchTab(0)">ВУЗ</button>
+            <button class="tab" onclick="switchTab(1)">Студент</button>
+            <button class="tab" onclick="switchTab(2)">Работодатель</button>
         </div>
 
-        <form action="../Backend/register.php" method="POST">
-          <input type="hidden" name="type" id="type" value="hs">
+        <form id="registrationForm">
+            <input type="hidden" name="type" id="type" value="university">
 
-        <!-- Вкладка "ВУЗ" -->
-        <div class="form active">
-          <input type="text" placeholder="Введите название организации" />
-          <input type="text" placeholder="Введите код ВУЗа" />
-          <input type="password" placeholder="Введите пароль" />
-          <input type="password" placeholder="Подтвердите пароль" />
-        </div>
+            <div class="form active">
+                <div class="autocomplete-container">
+                    <input type="text" name="name" id="uniNameSearch" placeholder="Название ВУЗа" required autocomplete="off">
+                    <div id="uniSuggestions" class="suggestions-list"></div>
+                </div>
+                <input type="text" name="inn" placeholder="Введите ИНН" minlength="10" required>
+                <input type="text" name="hsCode" placeholder="Код ВУЗа" required>
+                <input type="password" minlength="8" name="password" placeholder="Пароль" required>
+                <input type="password" name="confirm_password" placeholder="Подтвердите пароль" required>
+            </div>
 
-        <!-- Вкладка "Студент" -->
-        <div class="form">
-          <input type="text" placeholder="Введите ФИО" />
-          <input type="text" placeholder="Введите номер диплома" />
-          <input type="text" placeholder="Введите код ВУЗа" />
-        </div>
+            <div class="form">
+                <input type="text" name="fio" placeholder="Введите ФИО" required />
+                <input type="text" name="diplomCode" placeholder="Введите номер диплома" required />
+                <input type="hidden" name="hsCode" id="hsCodeHidden">
+                <div id="suggestions"></div> <input type="password" name="password" placeholder="Введите пароль" required />
+            </div>
 
-        <!-- Вкладка "Работодатель" -->
-        <div class="form">
-          <input type="text" name="name" placeholder="Введите название организации" />
-          <input type="email" name="email" placeholder="Введите e-mail" />
-          <input type="password" name="password" placeholder="Введите пароль" />
-          <input type="password" placeholder="Подтвердите пароль" />
-        </div>
+            <div class="form">
+                <input type="text" name="name" placeholder="Введите название организации" required />
+                <input type="email" name="email" placeholder="Введите e-mail" required />
+                <input type="password" minlength="8" name="password" placeholder="Введите пароль" required />
+                <input type="password" name="confirm_password" placeholder="Подтвердите пароль" required />
+            </div>
 
-        <button class="btn">Зарегистрироваться</button>
-</form>
+            <button type="submit" class="btn">Зарегистрироваться</button>
+        </form>
+
         <div class="login">Уже есть аккаунт? <a href="login.html">Войти</a></div>
-      </div>
     </div>
-  </body>
+</div>
+</body>
 </html>
