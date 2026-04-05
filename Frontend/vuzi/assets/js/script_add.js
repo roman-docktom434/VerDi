@@ -7,6 +7,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const nameError = document.getElementById('nameError');
     const passError = document.getElementById('passError');
 
+    const updateUniversityName = () => {
+        // Достаем название, которое сохранили при логине
+        const uniName = localStorage.getItem('userName'); // или 'uniIdentifier', смотря что сохранял
+        const displayElement = document.querySelector('.user-info__name');
+
+        if (uniName && displayElement) {
+            displayElement.textContent = uniName;
+        } else if (displayElement) {
+            displayElement.textContent = "ВУЗ не определен";
+        }
+    };
+
+// Вызываем функцию сразу при загрузке
+    updateUniversityName();
+
     // СБРОС ФОРМЫ 
     const resetFormToInitial = () => {
         studentForm.reset(); 
@@ -101,16 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     //Отправка формы
-    studentForm.addEventListener('submit', (e) => {
+    studentForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const fullName = studentNameInput.value.trim();
         const generatedPass = passwordInput.value;
-        const mockDatabase = [
-            { name: "Иванов Иван Иванович", diploma: "77АБ 123456" },
-            { name: "Смирнова Анна Игоревна", diploma: "61ВВ 987654" },
-            { name: "Петров Петр Петрович", diploma: "50КК 112233" }
-        ];
 
         if (!generatedPass) {
             passwordInput.classList.add('input-error');
@@ -118,15 +128,30 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const studentData = mockDatabase.find(s => s.name.toLowerCase() === fullName.toLowerCase());
+        try {
+            const response = await fetch('http://localhost:8080/api/students/activate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    fullName: fullName,
+                    password: generatedPass
+                })
+            });
 
-        if (studentData) {
-            showSuccessModal(studentData.name, studentData.diploma, generatedPass);
-            
-            resetFormToInitial();
-        } else {
-            studentNameInput.classList.add('input-error');
-            nameError.style.display = 'block';
+            if (response.ok) {
+                const result = await response.json();
+                // Показываем модалку с данными, которые подтвердил сервер
+                showSuccessModal(result.name, result.diploma, result.password);
+                resetFormToInitial();
+            } else {
+                const errorMsg = await response.text();
+                studentNameInput.classList.add('input-error');
+                nameError.textContent = errorMsg; // Выводим текст ошибки от сервера
+                nameError.style.display = 'block';
+            }
+        } catch (err) {
+            console.error("Ошибка сети:", err);
+            alert("Нет связи с сервером");
         }
     });
 
