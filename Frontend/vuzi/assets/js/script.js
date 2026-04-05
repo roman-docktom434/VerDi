@@ -109,10 +109,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (submitBtn) {
-        submitBtn.addEventListener('click', (e) => {
-            e.preventDefault(); // Предотвращаем перезагрузку формы
-            console.log('Отправка данных:', selectedFiles);
-            alert('Дипломы успешно отправлены в реестр!');
+        submitBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            if (selectedFiles.length === 0) return;
+
+            // Для примера берем данные из localStorage или задаем константы
+            // (в идеале они подтягиваются из профиля авторизованного ВУЗа)
+            const universityName = localStorage.getItem('uniName') || "РГЭУ (РИНХ)";
+            const innCode = "6164006634";
+
+            for (const fileObj of selectedFiles) {
+                const formData = new FormData();
+                formData.append('file', fileObj.file);
+                formData.append('universityName', universityName);
+                formData.append('innCode', innCode);
+                const cancelledValue = fileObj.verified ? 0 : 1;
+                formData.append('cancelled', cancelledValue);
+                try {
+                    const response = await fetch('http://localhost:8080/api/upload', {
+                        method: 'POST',
+                        body: formData // Headers ставить НЕ НУЖНО, браузер сам поставит multipart/form-data
+                    });
+
+                    const result = await response.text();
+                    if (response.ok) {
+                        console.log(`Файл ${fileObj.file.name} обработан: ${result}`);
+                    } else {
+                        alert(`Ошибка при загрузке ${fileObj.file.name}: ${result}`);
+                    }
+                } catch (err) {
+                    console.error('Ошибка сети:', err);
+                }
+            }
+
+            alert('Все файлы отправлены! Проверь консоль Java.');
             selectedFiles = [];
             renderFileList();
         });

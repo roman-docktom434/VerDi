@@ -1,59 +1,62 @@
 function switchTab(index) {
     const tabs = document.querySelectorAll('.tab');
-    const forms = document.querySelectorAll('.form');
-    const typeInput = document.getElementById('type');
+    const forms = document.querySelectorAll('.form-content');
 
-    tabs.forEach(tab => tab.classList.remove('active'));
-    forms.forEach((form, i) => {
-        const isActive = (i === index);
-        form.classList.toggle('active', isActive);
-
-        // ВАЖНО: Отключаем required для всех полей, которые сейчас скрыты
-        form.querySelectorAll('input').forEach(input => {
-            if (input.type !== 'hidden') {
-                input.required = isActive;
-            }
-        });
+    tabs.forEach((tab, i) => {
+        const inputs = forms[i].querySelectorAll('input');
+        if (i === index) {
+            tab.classList.add('active');
+            forms[i].classList.add('active');
+            forms[i].style.display = 'block';
+            // Включаем required только для видимых полей
+            inputs.forEach(input => input.required = true);
+        } else {
+            tab.classList.remove('active');
+            forms[i].classList.remove('active');
+            forms[i].style.display = 'none';
+            // Отключаем required, чтобы не было ошибки "not focusable"
+            inputs.forEach(input => {
+                input.required = false;
+            });
+        }
     });
-
-    tabs[index].classList.add('active');
-
-    const types = ['university', 'student', 'employer'];
-    if (typeInput) typeInput.value = types[index];
 }
 
-// ... switchTab остается без изменений ...
-
 document.addEventListener('DOMContentLoaded', () => {
+    // По умолчанию открываем ВУЗ (индекс 0)
     switchTab(0);
+
     const loginForm = document.getElementById('loginForm');
 
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const typeValue = document.getElementById('type').value;
-        const activeForm = document.querySelector('.form.active');
-        const data = { type: typeValue };
+        const activeTab = document.querySelector('.tab.active');
+        const role = activeTab.getAttribute('data-role');
 
-        // Собираем данные
-        activeForm.querySelectorAll('input').forEach(input => {
-            if (input.name) {
-                data[input.name] = input.value;
-            }
-        });
+        let identifier = "";
+        let password = "";
+        let redirectUrl = "";
 
-        // --- КОРРЕКЦИЯ КЛЮЧЕЙ ПОД ТВОЙ БЭКЕНД ---
-
-        if (typeValue === 'university') {
-            // Твой бэк ждет "identifier", а в HTML у нас "hsCode"
-            data["identifier"] = data["hsCode"];
+        if (role === 'university') {
+            identifier = document.getElementById('hsCode').value;
+            password = document.getElementById('vuzPassword').value;
+            redirectUrl = '../vuzi/vuz_page.html';
+        } else if (role === 'student') {
+            identifier = document.getElementById('diplomCode').value;
+            password = document.getElementById('studentPassword').value;
+            redirectUrl = 'student_page.html';
+        } else if (role === 'employer') {
+            identifier = document.getElementById('email').value;
+            password = document.getElementById('employerPassword').value;
+            redirectUrl = 'employer_page.html';
         }
-        else if (typeValue === 'employer') {
-            // Твой бэк ждет "identifier" (это почта), а в HTML "email"
-            data["identifier"] = data["email"];
-        }
 
-        console.log('Данные улетают на бэк:', data);
+        const data = {
+            type: role,
+            identifier: identifier,
+            password: password
+        };
 
         try {
             const response = await fetch('http://localhost:8080/api/auth/login', {
@@ -62,17 +65,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(data)
             });
 
-            const resultText = await response.text();
-
+            // ПРОВЕРКА: Если бэкенд возвращает JSON (с именем), используем response.json()
+            // Если только строку — response.text()
             if (response.ok) {
-                alert('Успешно: ' + resultText);
-                window.location.href = 'dashboard.html';
+                const result = await response.json();
+
+                localStorage.setItem('userType', role);
+                // Сохраняем имя, которое пришло из базы (hs.getName())
+                localStorage.setItem('userName', result.name || identifier);
+                localStorage.setItem('userIdentifier', identifier);
+
+                window.location.href = redirectUrl;
             } else {
-                // Если придет 401 (Неверные данные), ты увидишь это тут
-                alert('Ошибка: ' + resultText);
+                const errorText = await response.text();
+                alert('Ошибка: ' + errorText);
             }
         } catch (err) {
-            alert('Ошибка сети или 403 (CORS/Security)');
+            console.error('Ошибка сети:', err);
+            alert('Нет связи с сервером');
         }
     });
 });
+

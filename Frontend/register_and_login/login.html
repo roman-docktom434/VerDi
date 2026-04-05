@@ -20,27 +20,25 @@
         <p>Войдите в аккаунт</p>
 
         <div class="tabs">
-            <button type="button" class="tab active" onclick="switchTab(0)">ВУЗ</button>
-            <button type="button" class="tab" onclick="switchTab(1)">Студент</button>
-            <button type="button" class="tab" onclick="switchTab(2)">Работодатель</button>
+            <button type="button" class="tab active" onclick="switchTab(0)" data-role="university">ВУЗ</button>
+            <button type="button" class="tab" onclick="switchTab(1)" data-role="student">Студент</button>
+            <button type="button" class="tab" onclick="switchTab(2)" data-role="employer">Работодатель</button>
         </div>
 
         <form id="loginForm">
-            <input type="hidden" name="type" id="type" value="university">
-
-            <div class="form active">
-                <input type="text" name="hsCode" placeholder="Введите код ВУЗа" required />
-                <input type="password" name="password" placeholder="Введите пароль" required />
+            <div class="form-content active">
+                <input type="text" id="hsCode" name="hsCode" placeholder="Введите код ВУЗа" required />
+                <input type="password" id="vuzPassword" name="password" placeholder="Введите пароль" required />
             </div>
 
-            <div class="form">
-                <input type="text" name="diplomCode" placeholder="Введите номер диплома" required />
-                <input type="password" name="password" placeholder="Введите пароль" required />
+            <div class="form-content">
+                <input type="text" id="diplomCode" name="diplomCode" placeholder="Введите номер диплома" required />
+                <input type="password" id="studentPassword" name="password" placeholder="Введите пароль" required />
             </div>
 
-            <div class="form">
-                <input type="email" name="email" placeholder="Введите ваш e-mail" required />
-                <input type="password" name="password" placeholder="Введите пароль" required />
+            <div class="form-content">
+                <input type="email" id="email" name="email" placeholder="Введите ваш e-mail" required />
+                <input type="password" id="employerPassword" name="password" placeholder="Введите пароль" required />
             </div>
 
             <button type="submit" class="btn">Войти в аккаунт</button>

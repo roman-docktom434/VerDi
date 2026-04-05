@@ -110,7 +110,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             activeForm.querySelectorAll('input').forEach(input => {
                 if (input.name && input.name !== 'confirm_password') {
-                    data[input.name] = input.value;
+                    // Логика маппинга специфичных полей в универсальный 'identifier'
+                    if (input.name === 'diplomCode' || input.name === 'hsCode' || input.name === 'email') {
+                        data['identifier'] = input.value;
+                    } else {
+                        data[input.name] = input.value;
+                    }
                 }
             });
 
@@ -129,8 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 const res = await response.text();
                 if (response.ok) {
-                    alert('Успех!');
-                    window.location.href = 'login.html';
+                    window.location.href = '../vuzi/vuz_page.html';
                 } else {
                     alert('Ошибка: ' + res);
                 }
